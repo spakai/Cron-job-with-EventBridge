@@ -57,10 +57,9 @@ resource "aws_iam_role" "lambda_role" {
   })
 }
 
-# Lambda IAM Policy
 resource "aws_iam_policy" "lambda_policy" {
   name        = "lambda_dynamodb_policy"
-  description = "Policy for Lambda to interact with DynamoDB"
+  description = "Policy for Lambda to interact with DynamoDB and CloudWatch Logs"
 
   policy = jsonencode({
     Version = "2012-10-17",
@@ -78,11 +77,19 @@ resource "aws_iam_policy" "lambda_policy" {
           aws_dynamodb_table.cron_job.arn,                         # Table ARN
           "${aws_dynamodb_table.cron_job.arn}/index/overdue_tasks" # GSI ARN
         ]
+      },
+      {
+        Effect = "Allow",
+        Action = [
+          "logs:CreateLogGroup",
+          "logs:CreateLogStream",
+          "logs:PutLogEvents"
+        ],
+        Resource = "arn:aws:logs:*:*:*"
       }
     ]
   })
 }
-
 resource "aws_iam_role_policy_attachment" "lambda_policy_attach" {
   role       = aws_iam_role.lambda_role.name
   policy_arn = aws_iam_policy.lambda_policy.arn
@@ -100,7 +107,7 @@ resource "aws_lambda_function" "task_processor" {
 
   environment {
     variables = {
-      scheduled_tasks = "aws_dynamodb_table.cron_job.arn"
+      scheduled_tasks = aws_dynamodb_table.cron_job.arn
     }
   }
 }
