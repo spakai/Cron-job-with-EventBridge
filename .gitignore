@@ -1,0 +1,20 @@
+# Ignore Terraform state files
+terraform.tfstate
+terraform.tfstate.backup
+
+# Ignore crash logs
+crash.log
+
+# Ignore Terraform variable override files
+*.tfvars
+*.tfvars.json
+
+# Ignore plan files
+*.tfplan
+
+# Ignore directories generated during Terraform runs
+.terraform/
+.terraform.lock.hcl
+
+lambda_package.zip
+
