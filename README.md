@@ -2,6 +2,9 @@
 
 This project sets up an AWS infrastructure using Terraform to create a scheduled cron job with EventBridge that triggers a Lambda function.
 
+![Architecture](CronJobWithEventBridge.png)
+
+
 ## Project Structure
 
 - `main.tf`: Contains the main configuration for the Terraform infrastructure, defining the AWS EventBridge rule and the Lambda function.
