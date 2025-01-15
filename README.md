@@ -50,18 +50,18 @@ This project sets up an AWS infrastructure using Terraform to create a scheduled
    ```
    terraform apply
    ```
-6. Add a item in DB table
+6. Add a item in DB table:
    ```
-aws dynamodb put-item \
-    --table-name scheduled_tasks \
-    --item '{
-        "task_id": {"S": "task_christmas2024"},
-        "scheduled_time": {"N": "1735084800"},
-        "status": {"S": "PENDING"}
-    }' \
-    --region us-east-1
+   aws dynamodb put-item \
+      --table-name scheduled_tasks \
+      --item '{
+         "task_id": {"S": "task_christmas2024"},
+         "scheduled_time": {"N": "1735084800"},
+         "status": {"S": "PENDING"}
+      }' \
+      --region us-east-1
    ```
-7.  After 5 minutes, the status should now show "COMPLETED"
+7.  After 5 minutes, the status should now show "COMPLETED":
    ```
    aws dynamodb scan --table-name scheduled_tasks --region us-east-1
    ```

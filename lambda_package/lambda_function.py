@@ -47,8 +47,8 @@ def lambda_handler(event, context):
         except Exception as e:
             logger.error("Error updating task %s: %s", task["task_id"], e)
 
-if __name__ == "__main__":
+#if __name__ == "__main__":
     # Simulate event and context for testing
-    test_event = {}
-    test_context = {}
-    lambda_handler(test_event, test_context)
+#    test_event = {}
+#    test_context = {}
+#    lambda_handler(test_event, test_context)
