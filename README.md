@@ -17,12 +17,21 @@ This project sets up an AWS infrastructure using Terraform to create a scheduled
 - AWS account with appropriate permissions to create resources.
 - AWS CLI configured with your credentials.
 
+
 ### Setup
 
 1. Clone the repository:
    ```
    git clone <repository-url>
    cd Cron-job-with-EventBridge
+   ```
+
+1.1 Prepare lambda package:
+   ```
+   cd lambda_package
+   pip install --target ./package boto3
+   zip -r ../lambda.zip .
+   cd ..
    ```
 
 2. Initialize Terraform:
@@ -40,6 +49,21 @@ This project sets up an AWS infrastructure using Terraform to create a scheduled
 5. Apply the configuration:
    ```
    terraform apply
+   ```
+6. Add a item in DB table
+   ```
+aws dynamodb put-item \
+    --table-name scheduled_tasks \
+    --item '{
+        "task_id": {"S": "task_christmas2024"},
+        "scheduled_time": {"N": "1735084800"},
+        "status": {"S": "PENDING"}
+    }' \
+    --region us-east-1
+   ```
+7.  After 5 minutes, the status should now show "COMPLETED"
+   ```
+   aws dynamodb scan --table-name scheduled_tasks --region us-east-1
    ```
 
 ### Outputs
